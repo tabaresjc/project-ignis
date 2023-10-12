@@ -16,12 +16,12 @@ describe('PhraseService', () => {
   let mockRepository: Repository<Phrase>;
   
   const wrongFile = {
-    filename: 'sample-3s.mp3',
-    path: './test/data/sample-3s.mp3',
+    filename: 'sample-3s.m4a',
+    path: './test/data/sample-3s.m4a',    
   } as Express.Multer.File;
   const file = {
-    filename: 'sample-3s.m4a',
-    path: './test/data/sample-3s.m4a',
+    filename: 'sample-3s.mp3',
+    path: './test/data/sample-3s.mp3',
   } as Express.Multer.File;
   const phrase: Phrase = {
     id: 1,
@@ -97,7 +97,7 @@ describe('PhraseService', () => {
       
       expect(findOneBySpy).toBeCalled();
       expect(saveSpy).toBeCalled();
-      expect(result.format).toEqual('m4a');
+      expect(result.format).toEqual('mp3');
       expect(result.filePath).toContain('.wav');
     });     
   });

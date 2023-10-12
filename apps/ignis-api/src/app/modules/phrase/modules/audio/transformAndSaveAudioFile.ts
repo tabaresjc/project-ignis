@@ -1,26 +1,37 @@
+import { Logger } from '@nestjs/common';
 import Ffmpeg from 'fluent-ffmpeg';
 
-const outputOptionsByFormat = {
-  // this is how we specify the conversion for m4a files
-  // see https://trac.ffmpeg.org/wiki/Encode/AAC
-  m4a: '-c:a aac',
-  // this is the default value used by fluent-ffmpeg
-  wav: '-c:a pcm_s16le',
-}
+const profiles = {
+  wav: {
+    format: 'wav',
+    // Use PCM codec for WAV
+    audioCodec: 'pcm_s16le',
+  },
+};
 
 export function transformAudioAndSaveToFile(
   inputFile: string,
   outputFile: string,
   options: AudioTransformOptions
 ) {
+  const profile = profiles[options.format];
+  if (!profile) {
+    throw new Error(`Format is not supported: ${options.format}`);
+  }
   return new Promise<void>((resolve, reject) => {
     Ffmpeg()
       .input(inputFile)
-      .outputOptions(outputOptionsByFormat[options.format] || null)
+      .audioCodec(profile.audioCodec) 
+      .toFormat(profile.format)
       .on('end', () => {
         resolve();
       })
-      .on('error', (err) => {
+      .on('error', (err, stdout, stderr) => {
+        Logger.log(`
+          inputFile: ${inputFile}'
+          stdout: ${stdout}
+          stderr: ${stderr}
+        `);
         reject(err);
       })
       .save(outputFile);

@@ -5,9 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import mime from 'mime';
-import path from 'path';
 import { Repository } from 'typeorm';
-import config from '../../config';
 import {
   ACCEPTED_FILE_TYPES,
   ACCEPTED_MIME_TYPES,
@@ -15,8 +13,12 @@ import {
 } from './constants';
 import { CreatePhraseDto } from './dto/create-phrase.dto';
 import { Phrase } from './entities/phrase.entity';
-import { transformAudioAndSaveToFile } from './modules/audio';
+import {
+  streamAudioFile,
+  transformAudioAndSaveToFile,
+} from './modules/audio';
 import { deleteFile, generateUUID, getDataPathLocation } from './modules/utils';
+import { Response } from 'express';
 
 @Injectable()
 export class PhraseService {
@@ -96,14 +98,15 @@ export class PhraseService {
     return newPhrase;
   }
 
-  async transformPhraseToFormat(
+  async streamAudioPhrase(
     id: number,
     userID: number,
-    format: string
-  ): Promise<string> {
+    format: string,
+    res: Response
+  ): Promise<void> {
     const phrase = await this.findByIdAndUserId(id, userID);
 
-    if (!phrase) {
+    if (!phrase?.filePath) {
       throw new NotFoundException(
         'Ooops... the requested phrase does not exist.'
       );
@@ -115,16 +118,10 @@ export class PhraseService {
       );
     }
 
-    const filePath = path.join(config.dataPath, phrase.filePath);
+    const inputFilePath = getDataPathLocation(phrase.filePath);
 
-    // TODO: implement a job to cleanup tmp files after X seconds
-    const newFilePath = `tmp_transform_${generateUUID()}.${format}`;
-    const outputFilePath = path.join(config.dataPath, newFilePath);
-
-    await transformAudioAndSaveToFile(filePath, outputFilePath, {
+    await streamAudioFile(inputFilePath, res, {
       format,
     });
-
-    return outputFilePath;
   }
 }
