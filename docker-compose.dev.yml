@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   app:
-    container_name: app
+    container_name: app-${ENVIRONMENT}
     environment:
       - PORT=${PORT}
       - DATABASE_TYPE=mysql
@@ -12,6 +12,7 @@ services:
       - DATABASE_NAME=${DATABASE_NAME}
       - DATABASE_SYNCHRONIZE=${DATABASE_SYNCHRONIZE}
       - DATABASE_LOGGING=${DATABASE_LOGGING}
+      - DATA_PATH=${DATA_PATH}
     build:
       args:
         - PORT=${PORT}
@@ -21,8 +22,13 @@ services:
       - "${PORT}:${PORT}"
     depends_on:
       - mysql
+    volumes:
+      - ./tmp/audio-data-${ENVIRONMENT}:${DATA_PATH}
+    command: >
+      bash -c "npm run build && \
+               npm run start"
   mysql:
-    container_name: mysqldb
+    container_name: mysqldb-${ENVIRONMENT}
     image: mysql:8.0
     environment:
       - MYSQL_DATABASE=${DATABASE_NAME}
@@ -32,4 +38,4 @@ services:
     ports:
       - ${DATABASE_PORT}:3306
     volumes:
-      - ./tmp/mysql:/var/lib/mysql
+      - ./tmp/mysql-${ENVIRONMENT}:/var/lib/mysql

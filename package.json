@@ -4,11 +4,17 @@
   "license": "MIT",
   "scripts": {
     "build": "npx nx run-many --parallel --target=build --projects=ignis-api",
+    "start": "node dist/apps/ignis-api/main.js",
     "serve": "npx nx run-many --parallel --target=serve --projects=ignis-api",
-    "docker:build:test": "ENVIRONMENT=test bash ./scripts/docker.sh build",
-    "docker:db:local": "ENVIRONMENT=local bash ./scripts/docker.sh start_database",
-    "docker:down:local": "ENVIRONMENT=local bash ./scripts/docker.sh down",
-    "serve:local": "export $(cat .env.local | xargs) && npm run serve"
+    
+    "db:local:start": "ENVIRONMENT=local bash ./scripts/docker.sh start_database",
+    "db:local:down": "ENVIRONMENT=local bash ./scripts/docker.sh down",
+    
+    "docker:test:build": "ENVIRONMENT=test bash ./scripts/docker.sh build",
+    "docker:test:start": "ENVIRONMENT=test bash ./scripts/docker.sh start",
+    "docker:test:stop": "ENVIRONMENT=test bash ./scripts/docker.sh stop",
+    "docker:test:down": "ENVIRONMENT=test bash ./scripts/docker.sh down",
+    "docker:test:shell": "ENVIRONMENT=test bash ./scripts/docker.sh shell"
   },
   "private": true,
   "dependencies": {

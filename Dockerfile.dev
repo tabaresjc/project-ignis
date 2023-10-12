@@ -5,17 +5,25 @@ FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Update the package list and install necessary packages
-RUN apt-get update && apt-get install \
-  curl build-essential -y
+RUN apt-get -y update \
+  && apt-get -y upgrade \
+  && apt-get install curl build-essential -y
 
 # Install Node.js 18 & yarn
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get install -y nodejs
 RUN npm i -g yarn
 
+# install ffmpeg
+RUN apt-get install -y --no-install-recommends ffmpeg
+
+# cleanup apt files
+RUN rm -rf /var/lib/apt/lists/*
+
 # Verify the installation
 RUN node --version
 RUN npm --version
+RUN ffmpeg -version
 
 # Set the working directory in the container
 WORKDIR /app
