@@ -2,16 +2,28 @@
   "name": "my-project-ignis",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "build": "npx nx run-many --parallel --target=build --projects=ignis-api",
+    "serve": "npx nx run-many --parallel --target=serve --projects=ignis-api",
+    "docker:build:test": "ENVIRONMENT=test bash ./scripts/docker.sh build",
+    "docker:db:local": "ENVIRONMENT=local bash ./scripts/docker.sh start_database",
+    "docker:down:local": "ENVIRONMENT=local bash ./scripts/docker.sh down",
+    "serve:local": "export $(cat .env.local | xargs) && npm run serve"
+  },
   "private": true,
   "dependencies": {
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/typeorm": "^10.0.0",
     "axios": "^1.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
+    "mysql2": "^3.6.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "typeorm": "^0.3.17"
   },
   "devDependencies": {
     "@nestjs/schematics": "^9.0.0",

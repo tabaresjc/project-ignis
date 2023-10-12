@@ -3,20 +3,18 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger } from "@nestjs/common";
-import { NestFactory } from "@nestjs/core";
+import { Logger } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app/app.module';
+import config from './app/config';
 
-import { AppModule } from "./app/app.module";
-
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const globalPrefix = "api";
-  app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || 3000;
-  await app.listen(port);
-  Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
-  );
-}
-
-bootstrap();
+(async () => {
+  try {
+    const app = await NestFactory.create(AppModule);
+    await app.listen(config.port);
+    Logger.log(`🚀 ignis-api is running on: http://localhost:${config.port}`);
+  } catch (err) {
+    Logger.error('Unrecoverable error - process aborted.', err);
+    process.exit(1);
+  }
+})();

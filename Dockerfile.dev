@@ -1,0 +1,29 @@
+# Use an official Ubuntu as the base image
+FROM ubuntu:20.04
+
+# Set environment variables to avoid interactive prompts during installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Update the package list and install necessary packages
+RUN apt-get update && apt-get install \
+  curl build-essential -y
+
+# Install Node.js 18 & yarn
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+RUN apt-get install -y nodejs
+RUN npm i -g yarn
+
+# Verify the installation
+RUN node --version
+RUN npm --version
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy your Node.js application files to the container
+COPY package.json yarn.lock /app/
+
+# Install Node.js dependencies
+RUN yarn install
+
+COPY . /app/
