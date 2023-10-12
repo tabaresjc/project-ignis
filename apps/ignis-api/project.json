@@ -58,6 +58,54 @@
           "codeCoverage": true
         }
       }
+    },
+    "migrations:generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["npm run typeorm:base -- migration:generate -p"]
+      }
+    },
+    "migrations:run": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["npm run typeorm:base -- migration:run"]
+      }
+    },
+    "migrations:revert": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["npm run typeorm:base -- migration:revert"]
+      }
+    },
+    "migrations:drop": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["npm run typeorm:base -- migration:drop"]
+      }
+    },
+    "seed:create": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["npm run seed -- seed:create"]
+      }
+    },
+    "seed:run": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["npm run seed:base -- seed:run"]
+      }
+    },
+    "seed:db-create": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["npm run seed:base -- db:create"]
+      }
+    },
+    "seed:db-drop": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["npm run seed:base -- db:drop"]
+      }
     }
   },
   "tags": []

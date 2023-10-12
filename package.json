@@ -6,15 +6,18 @@
     "build": "npx nx run-many --parallel --target=build --projects=ignis-api",
     "start": "node dist/apps/ignis-api/main.js",
     "serve": "npx nx run-many --parallel --target=serve --projects=ignis-api",
-    
     "db:local:start": "ENVIRONMENT=local bash ./scripts/docker.sh start_database",
     "db:local:down": "ENVIRONMENT=local bash ./scripts/docker.sh down",
-    
     "docker:test:build": "ENVIRONMENT=test bash ./scripts/docker.sh build",
     "docker:test:start": "ENVIRONMENT=test bash ./scripts/docker.sh start",
     "docker:test:stop": "ENVIRONMENT=test bash ./scripts/docker.sh stop",
     "docker:test:down": "ENVIRONMENT=test bash ./scripts/docker.sh down",
-    "docker:test:shell": "ENVIRONMENT=test bash ./scripts/docker.sh shell"
+    "docker:test:shell": "ENVIRONMENT=test bash ./scripts/docker.sh shell",
+    "typeorm": "ts-node --project ./tsconfig.typeorm.json ./node_modules/typeorm/cli",
+    "typeorm:base": "npm run typeorm -- -d ./apps/ignis-api/typeorm.config.ts",
+    "typeorm:create": "npm run typeorm -- migration:create ./migrations/schemas/$MIGRATION_NAME",
+    "seed": "ts-node --project ./tsconfig.typeorm.json ./node_modules/typeorm-extension/bin/cli.cjs",
+    "seed:base": "npm run seed -- -d ./apps/ignis-api/typeorm.config.ts"
   },
   "private": true,
   "dependencies": {
@@ -61,6 +64,8 @@
     "prettier": "^2.6.2",
     "ts-jest": "^29.0.5",
     "ts-node": "10.9.1",
+    "tsconfig-paths": "^4.2.0",
+    "typeorm-extension": "^3.0.2",
     "typescript": "~4.9.5"
   }
 }
