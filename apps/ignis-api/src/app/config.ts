@@ -12,4 +12,5 @@ export default {
     synchronize: process.env.DATABASE_SYNCHRONIZE === 'true',
     logging: process.env.DATABASE_LOGGING === 'true',
   } as TypeOrmModuleOptions,
+  dataPath: process.env.DATA_PATH || '/tmp/data'
 };
