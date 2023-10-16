@@ -25,14 +25,14 @@ Notes:
 To build any of the project, just simply specify the name of the project (see Structure):
 
 ```shell
-nx build <project>
+nx build ignis-api
 ```
 
 ### Test
 
 To run unit test for any of the project, just simply specify the name of the project (see Structure):
 ```shell
-nx build <project>
+nx test ignis-api
 ```
 
 ## Run test application with Docker
@@ -56,14 +56,6 @@ This step generates an image derived from Ubuntu 20.08 which contains FFMPEG as 
 npm run docker:test:build
 ```
 
-- Build local image
-
-This step generates an image derived from Ubuntu 20.08 which contains FFMPEG as well as other dependencies to execute the service.
-
-```bash
-npm run docker:test:build
-```
-
 - Start application & db
 
 ```bash
@@ -71,7 +63,6 @@ npm run docker:test:start
 ```
 
 API application should be listening on `http://localhost`, you can change the API port at `env.test` by assigning a different value. In this case the API will be listening with the assigned port number `http://localhost:${PORT}`.
-
 
 - Testing application:
 
