@@ -42,9 +42,11 @@ The test application is intended to be executed for demonstration.
 The application will read the environment variables in `env.test` file, in order to provision a new `mysql` database & the API application.
 
 There are certain elements that are worth mentioning:
-- `env.test`: the config file read by `nx` to load the application & database.
+- `env.test`: this is the config file that will be read by `nx` to setup the application & database. Is already there, so you don't need to change it.
 - `tmp/audio-data-test`: storage location of the audio files.
 - `tmp/mysql-test`: location of the mysql data files. This will ensure data is permanent even after the container is rebooted. 
+- If you ever need to have a fresh installation, you can just remove anything under this folder to start anew.
+- There are some sample files located in `samples` folder. To make it easy to test certain endpoints.
 
 - Build image
 
@@ -89,4 +91,14 @@ For noew the supported format audio files are: [`mp3`]
 curl --request GET http://localhost/audio/user/1/phrase/1/{format} -o './tmp/test_response_file_1_1_1.mp3'
 ```
 
-For noew the supported `{format}` audio files are: [`mp3`]
+For now the supported `{format}` audio files are: [`mp3`]
+
+
+## Swagger doc (AKA Open API)
+
+Swagger documentation of the `ignis-api` is available at {apiUrl}/docs.
+
+Assouming `PORT` in `env.test` file is set with `80`, then you can expect to find the Open API doc at `http://localhost/docs``
+
+
+![Open API](images/open-api.png)
