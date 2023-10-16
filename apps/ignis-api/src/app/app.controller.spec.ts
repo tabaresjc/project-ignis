@@ -13,10 +13,12 @@ describe('AppController', () => {
     }).compile();
   });
 
-  describe('getData', () => {
-    it('should return "Hello API"', () => {
+  describe("getData", () => {
+    it('should return a valid object with timestamp', () => {
       const appController = app.get<AppController>(AppController);
-      expect(appController.getData()).toEqual({ message: 'Hello API' });
+      const data = appController.getData();
+      expect(data).not.toBeNull();
+      expect(data.ts).not.toBeUndefined();
     });
   });
 });

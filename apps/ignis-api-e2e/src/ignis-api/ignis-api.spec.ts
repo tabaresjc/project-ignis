@@ -5,6 +5,7 @@ describe("GET /api", () => {
     const res = await axios.get(`/api`);
 
     expect(res.status).toBe(200);
-    expect(res.data).toEqual({ message: "Hello API" });
+    expect(res.data).not.toBeNull();
+    expect(res.data.ts).not.toBeUndefined();    
   });
 });
