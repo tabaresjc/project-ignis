@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Response } from 'Express';
+import { Response } from 'express';
 import { HttpStatusCode } from 'axios';
 import { ACCEPTED_FILE_TYPES, MIME_TYPES_MAP } from './constants';
 import { CreatePhraseDto } from './dto/create-phrase.dto';
